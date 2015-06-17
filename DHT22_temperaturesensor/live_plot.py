@@ -50,33 +50,38 @@ class serialCOM:
 		f = open(filename, 'a')
 		f.write(date + '\t' + str(self.latestTemperature + '\t' + str(self.latestHumidity) + '\n')
 		f.close()
-
+	
 	def ___writeFile(self,filename):
 		date=time.time()
 		f = open(filename, 'a')
 		f.write(str(date) + '\t' + str(self.latestTemperature + '\t' + str(self.latestHumidity) + '\n')
 		f.close()
 
+
 if __name__=="__main__":
-	parser = argparse.ArgumentParser(description='This script is meant for the analysis of WLS capture efficiency.')
-	parser.add_argument('-c', '--calibration', dest='CALIB', action='store', type=str, help='Calibration measurement (fiber directly to signal PD)')
-	parser.add_argument('-f', '--files', dest='FILES', action='store', type=str, nargs='+', help='Files containing the diodes output. These should be formatted as wavelength TAB signal/refference TAB error(signal/refference)')
-	parser.add_argument('-s', '--spectrum', dest='SPECTRUM', type=str, action='store', help="Spectrum of the WLS measured.")
-	parser.add_argument('-t', '--target-folder', dest='TARGET', action='store', type=str, default='./results/', help='Folder to save results (default=\'./results\')')
-	parser.add_argument('-p', '--pre-factor', dest='PREFACTOR', action='store', type=float, help='Prefactor for geometry correction. (optional)' ,default=10000) #constants.pi*(10**2 - (10-2)**2) *2/(2*6),)#Default asumes 2cm PMMA pipe with 2mm frame
-	parser.add_argument('-z', '--Zeuthen', dest='ZEUTHEN', action='store_true', default=False, help='Use the file for the Zeuthen PD')
+	parser = argparse.ArgumentParser(description='This script is meant to read the humidity and temperature from an arduino connected to a DHT22 or alike. It allows to display the results in a dynamic plot or save them to file')
+	parser.add_argument('-P', '--plot', dest='SEC', action='store', type=int, help='The last SEC Seconds will be displayed in a dynamic plot. Leave empty for no Plot.')
+	parser.add_argument('-F', '--file', dest='FILE', action='store', type=str, help='A name for the output file. No output file if not set.')
 	
 	args = parser.parse_args()
+	if(args.SEC):
+		if(args.SEC < 2):
+			print "Error! Please choose a value greater 2 sconds."
+			return
+
 
 
 	sC=serialCOM("/dev/ttyACM0")
-	lp = live_plots(0,120,two_plots=True)
+	if(args.Sec):
+		lp = live_plots(0,args.SEC,two_plots=True)
 	while True:
-		time.sleep(1)
+		time.sleep(2)
 		t,h=sC.returnLatest()
-		lp.update(1,t,h)
-		lp.clean_arrays()
-		sc.writeFile(output.txt)
+		if(args.Sec):
+			lp.update(2,t,h)
+			lp.clean_arrays()
+		if(args.FILE):
+			sc.writeFile(args.FILE)
 
 
 #creat args for plot and or file
