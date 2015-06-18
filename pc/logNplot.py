@@ -6,7 +6,7 @@ import time
 import serial
 import os, sys
 import argparse
-from continuus_plot import live_plots
+from dynamic-plot import live_plots
 
 class serialCOM:
 	"""A simple class to fetch temperature and humidity information via a arduino micro connected to a DHT22"""
@@ -70,7 +70,6 @@ if __name__=="__main__":
 			return
 
 
-
 	sC=serialCOM("/dev/ttyACM0")
 	if(args.Sec):
 		lp = live_plots(0,args.SEC,two_plots=True)
@@ -83,5 +82,3 @@ if __name__=="__main__":
 		if(args.FILE):
 			sc.writeFile(args.FILE)
 
-
-#creat args for plot and or file
