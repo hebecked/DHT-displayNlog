@@ -6,7 +6,7 @@ import time
 import serial
 import os, sys
 import argparse
-from dynamic-plot import live_plots
+from dynamic_plot import live_plots
 
 class serialCOM:
 	"""A simple class to fetch temperature and humidity information via a arduino micro connected to a DHT22"""
@@ -48,13 +48,13 @@ class serialCOM:
 	def writeFile(self,filename):
 		date=time.asctime()
 		f = open(filename, 'a')
-		f.write(date + '\t' + str(self.latestTemperature + '\t' + str(self.latestHumidity) + '\n')
+		f.write(date + '\t' + str(self.latestTemperature) + '\t' + str(self.latestHumidity) + '\n')
 		f.close()
 	
 	def ___writeFile(self,filename):
 		date=time.time()
 		f = open(filename, 'a')
-		f.write(str(date) + '\t' + str(self.latestTemperature + '\t' + str(self.latestHumidity) + '\n')
+		f.write(str(date) + '\t' + str(self.latestTemperature) + '\t' + str(self.latestHumidity) + '\n')
 		f.close()
 
 
@@ -67,18 +67,18 @@ if __name__=="__main__":
 	if(args.SEC):
 		if(args.SEC < 2):
 			print "Error! Please choose a value greater 2 sconds."
-			return
+			exit
 
 
 	sC=serialCOM("/dev/ttyACM0")
-	if(args.Sec):
+	if(args.SEC):
 		lp = live_plots(0,args.SEC,two_plots=True)
 	while True:
 		time.sleep(2)
 		t,h=sC.returnLatest()
-		if(args.Sec):
-			lp.update(2,t,h)
+		if(args.SEC):
+			lp.update_time(2,t,h)
 			lp.clean_arrays()
 		if(args.FILE):
-			sc.writeFile(args.FILE)
+			sC.writeFile(args.FILE)
 
