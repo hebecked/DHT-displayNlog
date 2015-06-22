@@ -25,7 +25,7 @@ class live_plots:
 		self.ax1.set_autoscaley_on(True)
 		self.ax1.set_xlim(x_min,x_max)
 		self.ax1.grid()
-		if(two_plots):
+		if(self.twoplots):
 			self.ax1.set_ylabel(y_label, color=color1)
 			self.ax1.tick_params(axis='y',colors=color1)
 			self.ax2 = self.ax1.twinx()
@@ -39,7 +39,7 @@ class live_plots:
 		if append:
 			self.x=np.append(self.x,x)
 			self.y=np.append(self.y,y1)
-			if(twoplots):
+			if(self.twoplots):
 				self.y2=np.append(self.y2,y2)
 		else:
 			self.x=x

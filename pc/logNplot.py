@@ -6,7 +6,7 @@ import time
 import serial
 import os, sys
 import argparse
-from dynamic-plot import live_plots
+from dynamic_plot import live_plots
 
 class serialCOM:
 	"""A simple class to fetch temperature and humidity information via a arduino micro connected to a DHT22"""
@@ -90,7 +90,7 @@ if __name__=="__main__":
 	if(args.SEC):
 		if(args.SEC < 2):
 			print "Error! Please choose a value greater 2 sconds."
-			return
+			exit
 
 	sC=serialCOM("/dev/ttyACM0",args.TWO)
 	if(args.SEC):
