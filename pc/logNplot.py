@@ -103,10 +103,10 @@ if __name__=="__main__":
 		if(args.TWO):
 			t2,h2=sC.returnLatest2()
 		if(args.SEC):
-			lp.update(2,t,h)
+			lp.update_time(2,t,h)
 			lp.clean_arrays()
 			if(args.TWO):
-				lp2.update(2,t2,h2)
+				lp2.update_time(2,t2,h2)
 				lp2.clean_arrays()
 		if(args.FILE):
 			sC.writeFile(args.FILE)
