@@ -33,7 +33,7 @@ class serialCOM:
 		time.sleep(0.25)
 		self.latestHumidity=float(self.ser.read(50))
 		if(self.two):
-			self.ser.write('h2')
+			self.ser.write('j')
 			self.ser.flush()
 			time.sleep(0.25)
 			self.latestHumidity2=float(self.ser.read(50))
@@ -45,7 +45,7 @@ class serialCOM:
 		time.sleep(0.25)
 		self.latestTemperature=float(self.ser.read(50))
 		if(self.two):
-			self.ser.write('t2')
+			self.ser.write('z')
 			self.ser.flush()
 			time.sleep(0.25)
 			self.latestTemperature2=float(self.ser.read(50))
@@ -84,7 +84,7 @@ if __name__=="__main__":
 	parser = argparse.ArgumentParser(description='This script is meant to read the humidity and temperature from an arduino connected to a DHT22 or alike. It allows to display the results in a dynamic plot or save them to file')
 	parser.add_argument('-P', '--plot', dest='SEC', action='store', type=int, help='The last SEC Seconds will be displayed in a dynamic plot. Leave empty for no Plot.')
 	parser.add_argument('-F', '--file', dest='FILE', action='store', type=str, help='A name for the output file. No output file if not set.')
-	parser.add_argument('-t', '--two', dest='TWO', action='store_true', type=bool, default=False, help='Defines whether to read one or two Sensors.')
+	parser.add_argument('-t', '--two', dest='TWO', action='store_true', default=False, help='Defines whether to read one or two Sensors.')
 	
 	args = parser.parse_args()
 	if(args.SEC):
@@ -95,7 +95,7 @@ if __name__=="__main__":
 	sC=serialCOM("/dev/ttyACM0",args.TWO)
 	if(args.SEC):
 		lp = live_plots(0,args.SEC,two_plots=True)
-		if(args.two):
+		if(args.TWO):
 			lp2 = live_plots(0,args.SEC,two_plots=True)
 	while True:
 		time.sleep(2)
