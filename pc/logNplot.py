@@ -85,11 +85,12 @@ if __name__=="__main__":
 	parser.add_argument('-P', '--plot', dest='SEC', action='store', type=int, help='The last SEC Seconds will be displayed in a dynamic plot. Leave empty for no Plot.')
 	parser.add_argument('-F', '--file', dest='FILE', action='store', type=str, help='A name for the output file. No output file if not set.')
 	parser.add_argument('-t', '--two', dest='TWO', action='store_true', default=False, help='Defines whether to read one or two Sensors.')
+	parser.add_argument('-T', '--time', dest='TIME', action='store', type=int, default=2, help='Defines the time interval between measurements.')
 	
 	args = parser.parse_args()
 	if(args.SEC):
-		if(args.SEC < 2):
-			print "Error! Please choose a value greater 2 sconds."
+		if(args.SEC < 2 || args.SEC > args.TIME):
+			print "Error! Please choose a value greater than 2 seconds and the time interval."
 			exit
 
 	sC=serialCOM("/dev/ttyACM0",args.TWO)
@@ -98,15 +99,15 @@ if __name__=="__main__":
 		if(args.TWO):
 			lp2 = live_plots(0,args.SEC,two_plots=True)
 	while True:
-		time.sleep(2)
+		time.sleep(args.TIME)
 		t,h=sC.returnLatest()
 		if(args.TWO):
 			t2,h2=sC.returnLatest2()
 		if(args.SEC):
-			lp.update_time(2,t,h)
+			lp.update_time(args.TIME,t,h)
 			lp.clean_arrays()
 			if(args.TWO):
-				lp2.update_time(2,t2,h2)
+				lp2.update_time(args.TIME,t2,h2)
 				lp2.clean_arrays()
 		if(args.FILE):
 			sC.writeFile(args.FILE)
