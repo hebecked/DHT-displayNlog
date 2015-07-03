@@ -24,6 +24,11 @@ void setup() {
   digitalWrite(DHTPIN, HIGH);
   pinMode(DHTPIN2, INPUT);
   digitalWrite(DHTPIN2, HIGH);*/
+//Some work arround
+pinMode(10, OUTPUT);
+digitalWrite(10, HIGH);
+//end work arround
+  
   Serial.begin(9600);
   delay(250);
   Serial.println("Start!");
@@ -39,13 +44,13 @@ void loop() {
     if(what=='h'){
         Serial.print(h);
     }
-    if(what=='h2'){
+    if(what=='j'){
         Serial.print(h2);
     }
     if(what=='t'){
         Serial.print(t);
     }
-    if(what=='t2'){
+    if(what=='z'){
         Serial.print(t2);
     }
     if(what=='H'){
@@ -64,7 +69,7 @@ void loop() {
         Serial.print(t2);
         Serial.print(" C\n");
     }
-    if(what!='h' && what!='t' && what!='H' && what!='T'){
+    if(what!='h' && what!='t' && what!='H' && what!='T'&& what!='j' && what!='z' && what!='Z' && what!='J'){
         Serial.print("Send 'h' for humidity in percent\nOr send 't' for temperature in Celsius\nCapital letters for human readable output\n");
     }
   }
