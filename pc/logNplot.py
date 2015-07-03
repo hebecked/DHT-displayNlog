@@ -86,6 +86,7 @@ if __name__=="__main__":
 	parser.add_argument('-F', '--file', dest='FILE', action='store', type=str, help='A name for the output file. No output file if not set.')
 	parser.add_argument('-t', '--two', dest='TWO', action='store_true', default=False, help='Defines whether to read one or two Sensors.')
 	parser.add_argument('-T', '--time', dest='TIME', action='store', type=int, default=2, help='Defines the time interval between measurements.')
+	parser.add_argument('-p', '--port', dest='PORT', action='store', type=str, default="COM3", help='Defines the Port to connect to the arduino.')
 	
 	args = parser.parse_args()
 	if(args.SEC):
@@ -93,7 +94,7 @@ if __name__=="__main__":
 			print "Error! Please choose a value greater than 2 seconds and the time interval."
 			exit
 
-	sC=serialCOM("/dev/ttyACM0",args.TWO)
+	sC=serialCOM(args.PORT ,args.TWO)
 	if(args.SEC):
 		lp = live_plots(0,args.SEC,two_plots=True)
 		if(args.TWO):
