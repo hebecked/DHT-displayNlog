@@ -63,7 +63,7 @@ class serialCOM:
 
 	def writeFile(self,filename):
 		date=time.asctime()
-		if filname == "STDOUT"
+		if filename == "STDOUT":
 			if(self.two):
 				sys.stdout.write(date + '\t' + str(self.latestTemperature) + '\t' + str(self.latestHumidity) + '\t' + str(self.latestTemperature2) + '\t' + str(self.latestHumidity2) +'\n')
 			else:
@@ -78,7 +78,7 @@ class serialCOM:
 	
 	def ___writeFile(self,filename):
 		date=time.time()
-		if filname == "STDOUT"
+		if filename == "STDOUT":
 			if(self.two):
 				sys.stdout.write(date + '\t' + str(self.latestTemperature) + '\t' + str(self.latestHumidity) + '\t' + str(self.latestTemperature2) + '\t' + str(self.latestHumidity2) +'\n')
 			else:
@@ -102,7 +102,7 @@ if __name__=="__main__":
 	
 	args = parser.parse_args()
 	if(args.SEC):
-		if((args.SEC < 2 || args.SEC > args.TIME )):
+		if((args.SEC < 2 or args.SEC > args.TIME )):
 			print "Error! Please choose a value greater than 2 seconds and the time interval."
 			exit
 
@@ -134,4 +134,3 @@ if __name__=="__main__":
 			sC.writeFile(args.FILE)
 		else:
 			sC.writeFile("STDOUT")
-
